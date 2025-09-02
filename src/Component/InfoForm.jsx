@@ -25,7 +25,6 @@ const InfoForm = () => {
                     form.reset();
                 }
             })
-
     }
     return (
         <form onSubmit={handleAddUser}>
