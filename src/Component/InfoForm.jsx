@@ -1,6 +1,26 @@
 
 const InfoForm = () => {
     const handleAddUser = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const name = form.name.value;
+        const email = form.email.value;
+        const address = form.address.value;
+
+        const user = { name, email, address }
+        console.log(user);
+        // to send data into server side from client side
+        fetch('http://localhost:1500/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
 
     }
     return (
