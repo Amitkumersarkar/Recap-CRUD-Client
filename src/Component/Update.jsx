@@ -2,11 +2,34 @@ import { useLoaderData } from "react-router-dom";
 
 const Update = () => {
     const loadedUser = useLoaderData();
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const name = form.name.value;
+        const email = form.email.value;
+        // console.log(name, email);
+        const updatedUser = { name, email };
+        // send client data into sever side
+        fetch(`http://localhost:1500/users/${loadedUser._id}`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
 
+            },
+            body: JSON.stringify(updatedUser)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.modifiedCount > 0) {
+                    alert('user updated successfully')
+                }
+            })
+    }
     return (
         <div>
             <h2>Update information of {loadedUser.name}</h2>
-            <form >
+            <form onSubmit={handleUpdate}>
                 <input type="text" name="name" className="input input-bordered w-full" required defaultValue={loadedUser?.name} id="" />
                 <br />
                 <input type="email" name="email" className="input input-bordered w-full" required defaultValue={loadedUser?.email} id="" />
