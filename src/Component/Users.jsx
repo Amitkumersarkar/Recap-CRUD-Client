@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 
 const Users = () => {
     const userData = useLoaderData();
+    const [users, setUsers] = useState(userData);
+
     const handleDelete = (_id) => {
         console.log('Delete', _id);
         fetch(`http://localhost:1500/users/${_id}`, {
@@ -15,6 +18,9 @@ const Users = () => {
                 console.log(data);
                 if (data.deletedCount > 0) {
                     alert('Deleted successfully')
+                    // remove delete object from ui
+                    const remaining = users.filter(user => user._id !== _id);
+                    setUsers(remaining);
                 }
             })
     }
